@@ -5,17 +5,18 @@
 </head>
 <body>
 <h1>Add Restaurant</h1>
-<form th:action="@{/saveRestaurant}" th:object="${restaurant}" method="post">
+<form th:action="@{/saveRestaurant}" th:object="${restaurant}" method="post" enctype="multipart/form-data">
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required/><br/><br/>
+    <input type="text" id="name" th:field="*{name}" required/><br/><br/>
     <label for="location">Location:</label>
-    <input type="text" id="location" name="location" required/><br/><br/>
+    <input type="text" id="location" th:field="*{location}" required/><br/><br/>
     <label for="city">City:</label>
-    <input type="text" id="city" name="city" required/><br/><br/>
+    <input type="text" id="city" th:field="*{city}" required/><br/><br/>
     <label for="timeOpen">Opening Time:</label>
-    <input type="text" id="timeOpen" name="timeOpen" required/><br/><br/>
+    <input type="text" id="timeOpen" th:field="*{timeOpen}" required/><br/><br/>
     <label for="timeClose">Closing Time:</label>
-    <input type="text" id="timeClose" name="timeClose" required/><br/><br/>
+    <input type="text" id="timeClose" th:field="*{timeClose}" required/><br/><br/>
+    <input type="file" name="file" multiple><br/><br/>
     <!-- Add more fields as needed -->
 
     <!-- Ratings -->

@@ -1,2 +1,8 @@
-package com.project.restaurantsbenchmark.service;public interface UserService {
+package com.project.restaurantsbenchmark.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public interface UserService {
+
 }
