@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Restaurant</title>
+</head>
+<body>
+<h1>Add Restaurant</h1>
+<form th:action="@{/saveRestaurant}" th:object="${restaurant}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required/><br/><br/>
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" required/><br/><br/>
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" required/><br/><br/>
+    <label for="timeOpen">Opening Time:</label>
+    <input type="text" id="timeOpen" name="timeOpen" required/><br/><br/>
+    <label for="timeClose">Closing Time:</label>
+    <input type="text" id="timeClose" name="timeClose" required/><br/><br/>
+    <!-- Add more fields as needed -->
+
+    <!-- Ratings -->
+    <!-- Example: -->
+    <!--
+    <label for="ratings[0].value">Rating 1:</label>
+    <input type="number" id="ratings[0].value" name="ratings[0].value" required/><br/><br/>
+    -->
+
+    <!-- Images -->
+    <!-- Example: -->
+    <!--
+    <label for="images[0].imageUrl">Image 1 URL:</label>
+    <input type="text" id="images[0].imageUrl" name="images[0].imageUrl" required/><br/><br/>
+    -->
+
+    <input type="submit" value="Add"/>
+</form>
+</body>
+</html>
