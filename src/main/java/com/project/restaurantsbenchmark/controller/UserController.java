@@ -4,6 +4,7 @@ package com.project.restaurantsbenchmark.controller;
 import com.project.restaurantsbenchmark.service.UserServiceImpl;
 import com.project.restaurantsbenchmark.model.User;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,29 +18,37 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService ;
 
-    @GetMapping("/User")
+    @GetMapping("/user")
     public String showRegistrationForm(Model model){
         model.addAttribute("user", new User());
         return "Register&Login";
     }
-    @PostMapping("/user/save")
-    public String saveUser(@ModelAttribute("user") User user, Model model) {
+    @PostMapping("/user/register")
+    public String saveUser(@ModelAttribute("user") User user, Model model,HttpSession session ) {
         if (!user.getPassword().equals(user.getConfirmedPassword())) {
             model.addAttribute("error", "Passwords do not match");
-            return "Register&Login";
+            return "redirect:/user";
         }
 
+        session.setAttribute("userLoggedIn",user);
         userService.saveUser(user);
-        return "Register&Login";
+        return "redirect:/";
     }
 
     @PostMapping("/user/login")
-    public String logUser(@RequestParam("login") String login,@RequestParam("pass") String pass, Model model) {
-        if(userService.findUser(login,pass) == true){
-            return "you logged successfully";
+    public String logUser(@RequestParam("login") String login,@RequestParam("pass") String pass, Model model,HttpSession session) {
+        User user = userService.findUser(login,pass);
+        if(user != null){
+            session.setAttribute("userLoggedIn",user);
+            return "redirect:/";
         }
-        return "Oops!";
+        return "redirect:/user";
+    }
 
+    @GetMapping("/user/logout")
+    public String logoutUser(HttpSession session) {
+        session.setAttribute("userLoggedIn",null);
+        return "redirect:/";
     }
 
 }

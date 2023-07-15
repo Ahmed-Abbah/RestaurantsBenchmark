@@ -12,25 +12,26 @@
   <meta name="keywords" content="">
 
   <!-- Custom Google Fonts-->
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Roboto:wght@300;400;700&display=auto"
-    rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Roboto:wght@300;400;700&display=auto"
+          rel="stylesheet">
 
-  <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon/favicon-16x16.png">
-  <link rel="mask-icon" href="./assets/images/favicon/safari-pinned-tab.svg" color="#5bbad5">
-  <meta name="msapplication-TileColor" content="#da532c">
-  <meta name="theme-color" content="#ffffff">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/assets/images/favicon/apple-touch-icon.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/assets/images/favicon/favicon-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon/favicon-16x16.png}">
+    <link rel="mask-icon" th:href="@{/assets/images/favicon/safari-pinned-tab.svg}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 
-  <!-- Vendor CSS -->
-  <link rel="stylesheet" href="./assets/css/libs.bundle.css" />
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/libs.bundle.css}" />
 
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="./assets/css/theme.bundle.css" />
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/theme.bundle.css}" />
 
-  <!-- Fix for custom scrollbar if JS is disabled-->
+
+    <!-- Fix for custom scrollbar if JS is disabled-->
   <noscript>
     <style>
       /**
@@ -48,7 +49,12 @@
 </head>
 <body class="">
 
-<div th:replace="Navbar :: nav"></div>
+<div th:if="${session.userLoggedIn != null}" >
+    <div th:replace="LoggedInNavbar :: nav"></div>
+</div>
+<div th:if="${session.userLoggedIn == null}" >
+    <div  th:replace="NotLoggedInNavbar :: nav"></div>
+</div>
 
 
 <!-- Main Section-->
@@ -57,8 +63,9 @@
         
         <!-- Category Top Banner -->
         <div class="py-10 bg-img-cover bg-overlay-dark position-relative overflow-hidden bg-pos-center-center rounded-0"
-            style="background-image: url(static/assets/images/banners/banner-category-top.jpg);">
-            <div class="container-fluid position-relative z-index-20" data-aos="fade-right" data-aos-delay="300">
+             style="background-image: url(/assets/images/banners/banner-category-top.jpg);">
+
+        <div class="container-fluid position-relative z-index-20" data-aos="fade-right" data-aos-delay="300">
                 <h1 class="fw-bold display-6 mb-4 text-white">Latest Arrivals</h1>
                 <div class="col-12 col-md-6">
                     <p class="text-white mb-0 fs-5">
@@ -108,9 +115,6 @@
             <div class="row g-4" th:if="${not #lists.isEmpty(restaurants)}">
                 <div class="col-12 col-sm-6 col-lg-4" th:each="restaurant : ${restaurants}">
                     <form method="POST" action="@{/addRating}">
-                        <input type="hidden" value="${restaurant.id}" name="restaurantId">
-                        <button class="btn btn-quick-add" type="submit" >Add Rating</button>
-                    </form>
                     <!-- Card Product-->
                     <div class="card border border-transparent position-relative overflow-hidden h-100 transparent">
                         <div class="card-img position-relative">
@@ -118,23 +122,28 @@
                                 <span class="badge badge-card"><span class="f-w-2 f-h-2 bg-danger rounded-circle d-block me-1"></span> Closed</span>
                             </div>
                             <span class="position-absolute top-0 end-0 p-2 z-index-20 text-muted"><i class="ri-heart-line"></i></span>
-                            <picture class="position-relative overflow-hidden d-block bg-light" th:if="${not #lists.isEmpty(restaurant.images)}">
+                            <picture class="position-relative  d-block bg-light" th:if="${not #lists.isEmpty(restaurant.images)}">
                                 <img class="w-100 img-fluid position-relative z-index-10"
                                      title=""
                                      th:src="@{'/uploadedRestaurantsImages/' + ${restaurant.images[0].imageUrl}}"
                                      th:alt="@{'/uploadedRestaurantsImages/' + ${restaurant.images[0].imageUrl}}">
                             </picture>
-                            <div class="position-absolute start-0 bottom-0 end-0 z-index-20 p-2">
 
+
+
+
+                            <div class="position-absolute start-0 bottom-0 end-0 z-index-20 p-2">
+                                <button class="btn btn-quick-add"  >Add Rating</button>
 
                             </div>
                         </div>
                         <div class="card-body px-0">
-                            <a class="text-decoration-none link-cover" href="" th:text="${restaurant.name}"></a>
+                            <a class="text-decoration-none link-cover" th:href="@{/addRating(restaurantId=${restaurant.id})}" th:text="${restaurant.name}"></a>
                             <small class="text-muted d-block" th:text="'Time Open : '+ ${restaurant.timeOpen}"></small>
                             <small class="text-muted d-block" th:text="'Time Closed : '+ ${restaurant.timeClose}"></small>
                         </div>
                     </div>
+                    </form>
                     <!--/ Card Product-->
                 </div>
             </div>
@@ -395,10 +404,10 @@
     </div>
     <!-- Theme JS -->
     <!-- Vendor JS -->
-    <script src="./assets/js/vendor.bundle.js"></script>
+    <script src="assets/js/vendor.bundle.js"></script>
     
     <!-- Theme JS -->
-    <script src="./assets/js/theme.bundle.js"></script>
+    <script src="assets/js/theme.bundle.js"></script>
 </body>
 
 </html>

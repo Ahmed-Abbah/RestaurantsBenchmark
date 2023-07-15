@@ -17,6 +17,8 @@
     <label for="timeClose">Closing Time:</label>
     <input type="text" id="timeClose" th:field="*{timeClose}" required/><br/><br/>
     <input type="file" name="file" multiple><br/><br/>
+    <input type="hidden" th:value="${session.userLoggedIn}" th:field="*{user}" />
+
     <!-- Add more fields as needed -->
 
     <!-- Ratings -->

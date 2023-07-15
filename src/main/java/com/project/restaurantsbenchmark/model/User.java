@@ -3,6 +3,8 @@ package com.project.restaurantsbenchmark.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -18,17 +20,25 @@ public class User {
 
     private String confirmedPassword;
 
-
-
     private String email ;
 
     private String phoneNumber;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Restaurant> restaurants;
+
+
+    public List<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+    }
+
     public long getId() {
         return id;
     }
-
-
 
     public String getPassword() {
         return password;

@@ -16,14 +16,14 @@ public class UserServiceImpl implements UserService{
          this.userRepository.save(user);
     }
 
-    public boolean findUser(String login, String pass) {
+    public User findUser(String login, String pass) {
         List<User> users = this.userRepository.findAll();
         for (User user : users) {
             if (user.getEmail().equals(login) && user.getPassword().equals(pass)) {
-                return true;
+                return user;
             }
         }
-        return false;
+        return null;
     }
 
 

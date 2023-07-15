@@ -27,6 +27,9 @@ public class Rating {
     @Column(nullable = false)
     private Date dateMade;
 
+    @Column(nullable = false)
+    private String Comment;
+
     // Constructors, getters, and setters
 
     public Rating() {

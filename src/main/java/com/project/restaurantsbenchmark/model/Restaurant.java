@@ -22,6 +22,8 @@ public class Restaurant {
 
     private String timeClose ;
 
+    private String status ;
+
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Rating> ratings;
 
@@ -29,6 +31,17 @@ public class Restaurant {
     private List<Image> images;
     // Constructors, getters, and setters
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
     public Restaurant() {
         this.ratings = new ArrayList<>();
     }

@@ -4,16 +4,17 @@ body{
     font-family: 'Mukta', sans-serif;
     height:100vh;
     min-height:550px;
-    background-image: url(http://www.planwallpaper.com/static/images/Free-Wallpaper-Nature-Scenes.jpg);
     background-repeat: no-repeat;
     background-size:cover;
     background-position:center;
     position:relative;
-
 }
 a{
     text-decoration:none;
     color:#444444;
+}
+#nvbar-reg-login{
+    color: rgba(236, 48, 20, 0.9);
 }
 .login-reg-panel{
     position: relative;
@@ -34,7 +35,7 @@ a{
     width:50%;
     right:calc(50% - 50px);
     transition:.3s ease-in-out;
-    z-index:0;
+
     box-shadow: 0 0 15px 9px #00000096;
 }
 .login-reg-panel input[type="radio"]{
@@ -77,7 +78,7 @@ a{
 
 .login-show,
 .register-show{
-    z-index: 1;
+
     display:none;
     opacity:0;
     transition:0.3s ease-in-out;
