@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+
+<!-- Head -->
+<head>
+    <!-- Page Meta Tags-->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+
+    <!-- Custom Google Fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Roboto:wght@300;400;700&display=auto"
+          rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/assets/images/favicon/apple-touch-icon.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/assets/images/favicon/favicon-32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon/favicon-16x16.png}">
+    <link rel="mask-icon" th:href="@{/assets/images/favicon/safari-pinned-tab.svg}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/libs.bundle.css}" />
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/theme.bundle.css}" />
+
+
+    <!-- Fix for custom scrollbar if JS is disabled-->
+    <noscript>
+        <style>
+            /**
+                * Reinstate scrolling for non-JS clients
+                */
+            .simplebar-content-wrapper {
+                overflow: auto;
+            }
+        </style>
+    </noscript>
+
+    <!-- Page Title -->
+    <title>Restaurants</title>
+
+</head>
+<body class="">
+
+<div th:replace="adminNavbar :: nav"></div>
+
+
+<!-- Main Section-->
+<section class="mt-0 ">
+
+    <!-- Category Top Banner -->
+    <div class="py-10 bg-img-cover bg-overlay-dark position-relative overflow-hidden bg-pos-center-center rounded-0"
+         style="background-image: url(/assets/images/banners/top-image.jpg);">
+
+        <div class="container-fluid position-relative z-index-20" data-aos="fade-right" data-aos-delay="300">
+            <h1 class="fw-bold display-6 mb-4 text-white">Latest Arrivals</h1>
+            <div class="col-12 col-md-6">
+                <p class="text-white mb-0 fs-5">
+                    When it's time to head out and get your Kicks on, have a look at our latest arrivals. Whether you're into Nike, Adidas, Dunks or New Balance, we really have something for everyone!
+                </p>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <!-- Category Top Banner -->
+    <!-- Page Content Goes Here -->
+    <div class="container-fluid" data-aos="fade-in">
+        <table id="datatable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>City</th>
+                <th>Location</th>
+                <th>Time Close</th>
+                <th>Time Open</th>
+                <th>Added By</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="restaurant : ${restaurants}">
+
+                    <td th:text="${restaurant.getId()}"></td>
+                    <td th:text="${restaurant.getName()}"></td>
+                    <td th:text="${restaurant.getCity()}"></td>
+                    <td th:text="${restaurant.getLocation()}"></td>
+                    <td th:text="${restaurant.getTimeOpen()}"></td>
+                    <td th:text="${restaurant.getTimeClose()}"></td>
+                    <td th:text="${restaurant.getUser().getFirstName()}+' '+${restaurant.getUser().getLastName()}"></td>
+
+                    <td><form th:action="@{/approveRestaurant}" th:method="GET"><input type="hidden" th:name="restaurantIdtoApprove" th:value="${restaurant.getId()}">
+
+                        <button type="submit" class="btn btn-success">Approve</button></form>
+
+                        <form th:action="@{/deleteRestaurant}" th:method="POST"><input type="hidden" th:name="restaurantIdtoDelete" th:value="${restaurant.getId()}">
+
+                            <button type="submit" class="btn btn-danger">Delete</button></form>
+
+                        </td>
+
+
+            </tr>
+            <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- /Page Content -->
+</section>
+<!-- / Main Section-->
+
+<div th:replace="footer :: footer"></div>
+
+
+<!-- Offcanvas Imports-->
+<!-- Filters Offcanvas-->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFilters" aria-labelledby="offcanvasFiltersLabel">
+    <div class="offcanvas-header pb-0 d-flex align-items-center">
+        <h5 class="offcanvas-title" id="offcanvasFiltersLabel">Category Filters</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="d-flex flex-column justify-content-between w-100 h-100">
+
+            <!-- Filters-->
+            <div>
+
+                <!-- Price Filter -->
+                <div class="py-4 widget-filter widget-filter-price border-top">
+                    <a class="small text-body text-decoration-none text-secondary-hover transition-all transition-all fs-6 fw-bolder d-block collapse-icon-chevron"
+                       data-bs-toggle="collapse" href="#filter-modal-price" role="button" aria-expanded="true"
+                       aria-controls="filter-modal-price">
+                        Price
+                    </a>
+                    <div id="filter-modal-price" class="collapse show">
+                        <div class="filter-price mt-6"></div>
+                        <div class="d-flex justify-content-between align-items-center mt-7">
+                            <div class="input-group mb-0 me-2 border">
+                                <span class="input-group-text bg-transparent fs-7 p-2 text-muted border-0">$</span>
+                                <input type="number" min="00" max="1000" step="1" class="filter-min form-control-sm border flex-grow-1 text-muted border-0">
+                            </div>
+                            <div class="input-group mb-0 ms-2 border">
+                                <span class="input-group-text bg-transparent fs-7 p-2 text-muted border-0">$</span>
+                                <input type="number" min="00" max="1000" step="1" class="filter-max form-control-sm flex-grow-1 text-muted border-0">
+                            </div>
+                        </div>          </div>
+                </div>
+                <!-- / Price Filter -->
+
+                <!-- Brands Filter -->
+                <div class="py-4 widget-filter border-top">
+                    <a class="small text-body text-decoration-none text-secondary-hover transition-all transition-all fs-6 fw-bolder d-block collapse-icon-chevron"
+                       data-bs-toggle="collapse" href="#filter-modal-brands" role="button" aria-expanded="true"
+                       aria-controls="filter-modal-brands">
+                        Brands
+                    </a>
+                    <div id="filter-modal-brands" class="collapse show">
+                        <div class="input-group my-3 py-1">
+                            <input type="text" class="form-control py-2 filter-search rounded" placeholder="Search"
+                                   aria-label="Search">
+                            <span class="input-group-text bg-transparent p-2 position-absolute top-10 end-0 border-0 z-index-20"><i
+                                    class="ri-search-2-line text-muted"></i></span>
+                        </div>
+                        <div class="simplebar-wrapper">
+                            <div class="filter-options" data-pixr-simplebar>
+                                <div class="form-group form-check-custom mb-1">
+                                    <input type="checkbox" class="form-check-input" id="filter-brands-modal-0">
+                                    <label class="form-check-label fw-normal text-body flex-grow-1 d-flex align-items-center"
+                                           for="filter-brands-modal-0">Adidas  <span
+                                            class="text-muted ms-1 fs-9">(21)</span></label>
+                                </div>                <div class="form-group form-check-custom mb-1">
+                                <input type="checkbox" class="form-check-input" id="filter-brands-modal-1">
+                                <label class="form-check-label fw-normal text-body flex-grow-1 d-flex align-items-center"
+                                       for="filter-brands-modal-1">Asics  <span
+                                        class="text-muted ms-1 fs-9">(13)</span></label>
+                            </div>                <div class="form-group form-check-custom mb-1">
+                                <input type="checkbox" class="form-check-input" id="filter-brands-modal-2">
+                                <label class="form-check-label fw-normal text-body flex-grow-1 d-flex align-items-center"
+                                       for="filter-brands-modal-2">Canterbury  <span
+                                        class="text-muted ms-1 fs-9">(18)</span></label>
+                            </div>                <div class="form-group form-check-custom mb-1">
+                                <input type="checkbox" class="form-check-input" id="filter-brands-modal-3">
+                                <label class="form-check-label fw-normal text-body flex-grow-1 d-flex align-items-center"
+                                       for="filter-brands-modal-3">Converse  <span
+                                        class="text-muted ms-1 fs-9">(25)</span></label>
+                            </div>                <div class="form-group form-check-custom mb-1">
+                                <input type="checkbox" class="form-check-input" id="filter-brands-modal-4">
+                                <label class="form-check-label fw-normal text-body flex-grow-1 d-flex align-items-center"
+                                       for="filter-brands-modal-4">Donnay  <span
+                                        class="text-muted ms-1 fs-9">(11)</span></label>
+                            </div>                <div class="form-group form-check-custom mb-1">
+                                <input type="checkbox" class="form-check-input" id="filter-brands-modal-5">
+                                <label class="form-check-label fw-normal text-body flex-grow-1 d-flex align-items-center"
+                                       for="filter-brands-modal-5">Nike  <span
+                                        class="text-muted ms-1 fs-9">(19)</span></label>
+                            </div>                <div class="form-group form-check-custom mb-1">
+                                <input type="checkbox" class="form-check-input" id="filter-brands-modal-6">
+                                <label class="form-check-label fw-normal text-body flex-grow-1 d-flex align-items-center"
+                                       for="filter-brands-modal-6">Millet  <span
+                                        class="text-muted ms-1 fs-9">(24)</span></label>
+                            </div>                <div class="form-group form-check-custom mb-1">
+                                <input type="checkbox" class="form-check-input" id="filter-brands-modal-7">
+                                <label class="form-check-label fw-normal text-body flex-grow-1 d-flex align-items-center"
+                                       for="filter-brands-modal-7">Puma  <span
+                                        class="text-muted ms-1 fs-9">(11)</span></label>
+                            </div>                <div class="form-group form-check-custom mb-1">
+                                <input type="checkbox" class="form-check-input" id="filter-brands-modal-8">
+                                <label class="form-check-label fw-normal text-body flex-grow-1 d-flex align-items-center"
+                                       for="filter-brands-modal-8">Reebok  <span
+                                        class="text-muted ms-1 fs-9">(19)</span></label>
+                            </div>                <div class="form-group form-check-custom mb-1">
+                                <input type="checkbox" class="form-check-input" id="filter-brands-modal-9">
+                                <label class="form-check-label fw-normal text-body flex-grow-1 d-flex align-items-center"
+                                       for="filter-brands-modal-9">Under Armour  <span
+                                        class="text-muted ms-1 fs-9">(24)</span></label>
+                            </div>              </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Brands Filter -->
+
+                <!-- Sizes Filter -->
+                <div class="py-4 widget-filter border-top">
+                    <a class="small text-body text-decoration-none text-secondary-hover transition-all transition-all fs-6 fw-bolder d-block collapse-icon-chevron"
+                       data-bs-toggle="collapse" href="#filter-modal-sizes" role="button" aria-expanded="true"
+                       aria-controls="filter-modal-sizes">
+                        Sizes
+                    </a>
+                    <div id="filter-modal-sizes" class="collapse show">
+                        <div class="filter-options mt-3">
+                            <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
+                                <input type="checkbox" class="form-check-bg-input" id="filter-sizes-modal-0">
+                                <label class="form-check-label fw-normal" for="filter-sizes-modal-0">6.5</label>
+                            </div>              <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
+                            <input type="checkbox" class="form-check-bg-input" id="filter-sizes-modal-1">
+                            <label class="form-check-label fw-normal" for="filter-sizes-modal-1">7</label>
+                        </div>              <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
+                            <input type="checkbox" class="form-check-bg-input" id="filter-sizes-modal-2">
+                            <label class="form-check-label fw-normal" for="filter-sizes-modal-2">7.5</label>
+                        </div>              <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
+                            <input type="checkbox" class="form-check-bg-input" id="filter-sizes-modal-3">
+                            <label class="form-check-label fw-normal" for="filter-sizes-modal-3">8</label>
+                        </div>              <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
+                            <input type="checkbox" class="form-check-bg-input" id="filter-sizes-modal-4">
+                            <label class="form-check-label fw-normal" for="filter-sizes-modal-4">8.5</label>
+                        </div>              <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
+                            <input type="checkbox" class="form-check-bg-input" id="filter-sizes-modal-5">
+                            <label class="form-check-label fw-normal" for="filter-sizes-modal-5">9</label>
+                        </div>              <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
+                            <input type="checkbox" class="form-check-bg-input" id="filter-sizes-modal-6">
+                            <label class="form-check-label fw-normal" for="filter-sizes-modal-6">9.5</label>
+                        </div>              <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
+                            <input type="checkbox" class="form-check-bg-input" id="filter-sizes-modal-7">
+                            <label class="form-check-label fw-normal" for="filter-sizes-modal-7">10</label>
+                        </div>              <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
+                            <input type="checkbox" class="form-check-bg-input" id="filter-sizes-modal-8">
+                            <label class="form-check-label fw-normal" for="filter-sizes-modal-8">10.5</label>
+                        </div>              <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
+                            <input type="checkbox" class="form-check-bg-input" id="filter-sizes-modal-9">
+                            <label class="form-check-label fw-normal" for="filter-sizes-modal-9">11</label>
+                        </div>              <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
+                            <input type="checkbox" class="form-check-bg-input" id="filter-sizes-modal-10">
+                            <label class="form-check-label fw-normal" for="filter-sizes-modal-10">11.5</label>
+                        </div>            </div>
+                    </div>
+                </div>
+                <!-- / Sizes Filter -->
+
+                <!-- Colour Filter -->
+                <div class="py-4 widget-filter border-top">
+                    <a class="small text-body text-decoration-none text-secondary-hover transition-all transition-all fs-6 fw-bolder d-block collapse-icon-chevron"
+                       data-bs-toggle="collapse" href="#filter-modal-colour" role="button" aria-expanded="true"
+                       aria-controls="filter-modal-colour">
+                        Colour
+                    </a>
+                    <div id="filter-modal-colour" class="collapse show">
+                        <div class="filter-options mt-3">
+                            <div class="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom form-check-primary">
+                                <input type="checkbox" class="form-check-color-input" id="filter-colours-modal-0">
+                                <label class="form-check-label" for="filter-colours-modal-0"></label>
+                            </div>              <div class="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom form-check-success">
+                            <input type="checkbox" class="form-check-color-input" id="filter-colours-modal-1">
+                            <label class="form-check-label" for="filter-colours-modal-1"></label>
+                        </div>              <div class="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom form-check-danger">
+                            <input type="checkbox" class="form-check-color-input" id="filter-colours-modal-2">
+                            <label class="form-check-label" for="filter-colours-modal-2"></label>
+                        </div>              <div class="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom form-check-info">
+                            <input type="checkbox" class="form-check-color-input" id="filter-colours-modal-3">
+                            <label class="form-check-label" for="filter-colours-modal-3"></label>
+                        </div>              <div class="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom form-check-warning">
+                            <input type="checkbox" class="form-check-color-input" id="filter-colours-modal-4">
+                            <label class="form-check-label" for="filter-colours-modal-4"></label>
+                        </div>              <div class="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom form-check-dark">
+                            <input type="checkbox" class="form-check-color-input" id="filter-colours-modal-5">
+                            <label class="form-check-label" for="filter-colours-modal-5"></label>
+                        </div>              <div class="form-group d-inline-block mr-1 mb-1 form-check-solid-bg-checkmark form-check-custom form-check-secondary">
+                            <input type="checkbox" class="form-check-color-input" id="filter-colours-modal-6">
+                            <label class="form-check-label" for="filter-colours-modal-6"></label>
+                        </div>            </div>
+                    </div>
+                </div>
+                <!-- / Colour Filter -->
+            </div>
+            <!-- / Filters-->
+
+            <!-- Filter Button-->
+            <div class="border-top pt-3">
+                <a href="#" class="btn btn-dark mt-2 d-block hover-lift-sm hover-boxshadow" data-bs-dismiss="offcanvas" aria-label="Close">Done</a>
+            </div>
+            <!-- /Filter Button-->
+        </div>
+    </div>
+</div>
+<!-- Theme JS -->
+<!-- Vendor JS -->
+<script src="assets/js/vendor.bundle.js"></script>
+
+<!-- Theme JS -->
+<script src="assets/js/theme.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable();
+    });
+</script>
+</body>
+
+</html>

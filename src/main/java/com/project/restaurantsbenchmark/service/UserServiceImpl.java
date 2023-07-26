@@ -1,4 +1,5 @@
 package com.project.restaurantsbenchmark.service;
+import com.project.restaurantsbenchmark.model.Restaurant;
 import com.project.restaurantsbenchmark.repository.UserRepository;
 import com.project.restaurantsbenchmark.model.User;
 import org.springframework.beans.factory.annotation.*;
@@ -24,6 +25,10 @@ public class UserServiceImpl implements UserService{
             }
         }
         return null;
+    }
+
+    public List<User> SelectAllUsers(){
+        return userRepository.findAll();
     }
 
 

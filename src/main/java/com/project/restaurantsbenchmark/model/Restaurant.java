@@ -2,7 +2,8 @@ package com.project.restaurantsbenchmark.model;
 
 import jakarta.persistence.*;
 
-
+import java.text.DecimalFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,10 +25,47 @@ public class Restaurant {
 
     private String status ;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    private String Description;
+    private String Details;
+
+    private String Delivery;
+
+    public void setDelivery(String delivery) {
+        Delivery = delivery;
+    }
+
+    public void setDetails(String details) {
+        Details = details;
+    }
+
+    public String getDetails() {
+        return Details;
+    }
+
+    public String getDelivery() {
+        return Delivery;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Rating> ratings;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Image> images;
     // Constructors, getters, and setters
 
@@ -123,8 +161,38 @@ public class Restaurant {
         return timeClose;
     }
 
+
+    public double getAverageRating() {
+        double sum = 0;
+        int size = this.getRatings().size();
+
+        for (int i = 0; i < size; i++) {
+            sum += this.getRatings().get(i).getValue();
+        }
+
+        double average = sum / size;
+        if(average == 0.0){
+            return 0;
+        }
+        // Format the average to have two decimal places
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        double formattedAverage = Double.parseDouble(decimalFormat.format(average));
+
+        return formattedAverage;
+    }
+
     public void addImage(Image image){
         this.images.add(image);
+    }
+
+    public int ratingCountOf(int rating){
+        int count=0;
+        for(int i =0;i<this.ratings.size();i++){
+            if(rating == (int) this.ratings.get(i).getValue()){
+                count++;
+            }
+        }
+        return count;
     }
 }
 

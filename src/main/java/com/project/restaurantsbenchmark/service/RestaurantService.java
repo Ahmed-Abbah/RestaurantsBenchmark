@@ -5,6 +5,7 @@ import com.project.restaurantsbenchmark.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +18,25 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public List<Restaurant> SelectAllRestaurants(){
-        return restaurantRepository.findAll();
+    public List<Restaurant> SelectAllRestaurants() {
+        List<Restaurant> allRestaurants = restaurantRepository.findAll();
+        List<Restaurant> approvedRestaurants = new ArrayList<>();
+
+        for (Restaurant restaurant : allRestaurants) {
+            if (restaurant.getStatus()!=null) {
+                approvedRestaurants.add(restaurant);
+            }
+        }
+
+        return approvedRestaurants;
+    }
+
+
+
+
+    public List<Restaurant> SelectAllRestaurantsNotApproved(){
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+        return restaurants;
     }
 
     public Restaurant findRestaurant(long restaurantId){
@@ -26,5 +44,10 @@ public class RestaurantService {
         restaurant = restaurantRepository.findById(restaurantId);
         return restaurant.orElse(null);
     }
+
+    public void deleteRestaurant(long restaurantId) {
+        restaurantRepository.deleteById(restaurantId);
+    }
+
 }
 

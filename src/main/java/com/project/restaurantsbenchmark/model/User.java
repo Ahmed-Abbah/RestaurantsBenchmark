@@ -18,11 +18,21 @@ public class User {
 
     private String password;
 
+
     private String confirmedPassword;
 
     private String email ;
 
     private String phoneNumber;
+    private String isAdmin = "no" ;
+
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public String getIsAdmin() {
+        return isAdmin;
+    }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Restaurant> restaurants;

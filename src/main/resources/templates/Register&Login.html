@@ -18,9 +18,7 @@
 
     <title>Document</title>
 </head>
-<body>
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 
 <!-- Navbar -->
 <!-- Navbar -->
@@ -70,11 +68,7 @@
                                 Home
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="" role="button">
-                                Compare
-                            </a>
-                        </li>
+
 
                     </ul>                    <!-- / Menu-->
                 </div>
@@ -108,6 +102,7 @@
     <div class="white-panel">
         <div class="login-show">
             <h2>LOGIN</h2>
+            <h6 th:if="${param.logInPageMesssage}" th:text="${param.logInPageMesssage}" style="color:red"></h6>
             <form th:action="@{/user/login}" method="POST">
                 <input type="text" placeholder="Email" name="login">
                 <input type="password" placeholder="Password" name="pass">
@@ -158,7 +153,7 @@
 
     </div>
 </div>
-<div th:replace="footer :: footer"></div>
+
 <script src="assets/js/Register&Login.js"></script>
 </body>
 </html>

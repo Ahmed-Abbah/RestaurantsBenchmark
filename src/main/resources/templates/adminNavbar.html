@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white flex-column border-0  ">
+  <div class="container-fluid">
+    <div class="w-100">
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+        <!-- Logo-->
+        <a class="navbar-brand fw-bold fs-3 m-0 p-0 flex-shrink-0 order-0" href="./index.html">
+          <div class="d-flex align-items-center">
+            <svg class="f-w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 77.53 72.26"><path d="M10.43,54.2h0L0,36.13,10.43,18.06,20.86,0H41.72L10.43,54.2Zm67.1-7.83L73,54.2,68.49,62,45,48.47,31.29,72.26H20.86l-5.22-9L52.15,0H62.58l5.21,9L54.06,32.82,77.53,46.37Z" fill="currentColor" fill-rule="evenodd"/></svg>
+          </div>
+        </a>
+        <!-- / Logo-->
+
+        <!-- Navbar Icons-->
+        <ul class="list-unstyled mb-0 d-flex align-items-center order-1 order-lg-2 nav-sidelinks">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/logout}" role="button">
+              logout
+            </a>
+          </li>
+          <!-- Mobile Nav Toggler-->
+          <li class="d-lg-none">
+                            <span class="nav-link text-body d-flex align-items-center cursor-pointer" data-bs-toggle="collapse"
+                                  data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                                  aria-label="Toggle navigation"><i class="ri-menu-line ri-lg me-1"></i> Menu</span>
+          </li>
+          <!-- /Mobile Nav Toggler-->
+
+          <!-- Navbar Search-->
+          <li class="d-none d-sm-block">
+
+
+            <!-- Search navbar overlay-->
+            <div class="navbar-search d-none">
+              <div class="input-group mb-3 h-100">
+                                    <span class="input-group-text px-4 bg-transparent border-0"><i
+                                            class="ri-search-line ri-lg"></i></span>
+                <input type="text" class="form-control text-body bg-transparent border-0"
+                       placeholder="Enter your search terms...">
+                <span
+                        class="input-group-text px-4 cursor-pointer disable-child-pointer close-search bg-transparent border-0"><i
+                        class="ri-close-circle-line ri-lg"></i></span>
+              </div>
+            </div>
+            <div class="search-overlay"></div>
+            <!-- / Search navbar overlay-->
+
+          </li>
+          <!-- /Navbar Search-->
+
+          <!-- Navbar Login-->
+
+          <!-- /Navbar Login-->
+
+          <!-- Navbar Cart Icon-->
+          <li class="ms-1 d-inline-block position-relative dropdown-cart">
+            <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body"
+                    type="button">
+              Account
+            </button>
+            <div class="cart-dropdown dropdown-menu">
+
+              <!-- Cart Header-->
+              <div class="d-flex justify-content-between align-items-center border-bottom pt-3 pb-4">
+                <h6 class="fw-bolder m-0">Profile</h6>
+                <i class="ri-close-circle-line text-muted ri-lg cursor-pointer btn-close-cart"></i>
+              </div>
+              <!-- / Cart Header-->
+
+              <!-- Cart Items-->
+              <div>
+
+                <!-- Cart Product-->
+                <div class="row mx-0 py-4 g-0 border-bottom">
+                  <div class="col-9 offset-1">
+                    <div>
+                      <h6 class="justify-content-between d-flex align-items-start mb-2" th:text="'Hello, ' + ${session.userLoggedIn.getFirstName()}+' '+ ${session.userLoggedIn.getLastName()}">
+
+
+                        <i class="ri-close-line ms-3"></i>
+                      </h6>
+
+                    </div>
+
+
+                  </div>
+                </div>
+                <!-- Cart Product-->
+                <div class="row mx-0 py-4 g-0 border-bottom">
+                  <div class="col-9 offset-1">
+                    <div>
+                      <h6 class="justify-content-between d-flex align-items-start mb-2" th:text="'Email : ' + ${session.userLoggedIn.getEmail()}">
+
+
+                        <i class="ri-close-line ms-3"></i>
+                      </h6>
+
+                    </div>
+
+
+                  </div>
+                </div>
+                <div class="row mx-0 py-4 g-0 border-bottom">
+                  <div class="col-9 offset-1">
+                    <div>
+                      <h6 class="justify-content-between d-flex align-items-start mb-2" th:text="'Phone Number : ' + ${session.userLoggedIn.getPhoneNumber()}">
+
+
+                        <i class="ri-close-line ms-3"></i>
+                      </h6>
+
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <!-- /Cart Items-->
+
+              <!-- Cart Summary-->
+              <div>
+
+                <a href="./cart.html" class="btn btn-outline-dark w-100 text-center mt-4" role="button">Modify Profile</a>
+                <a th:href="@{/user/logout}" class="btn btn-dark w-100 text-center mt-2" role="button">Logout</a>
+              </div>
+              <!-- / Cart Summary-->
+            </div>
+
+
+          </li>
+          <!-- /Navbar Cart Icon-->
+
+        </ul>
+        <!-- Navbar Icons-->
+
+        <!-- Main Navigation-->
+        <div class="flex-shrink-0 collapse navbar-collapse navbar-collapse-light w-auto flex-grow-1 order-2 order-lg-1"
+             id="navbarNavDropdown">
+
+          <!-- Menu-->
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+
+
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/manageRestaurants}" role="button">
+                Restaurants
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/manageUsers}" role="button">
+                Users
+              </a>
+            </li>
+
+
+          </ul>                    <!-- / Menu-->
+
+        </div>
+        <!-- / Main Navigation-->
+
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- / Navbar-->

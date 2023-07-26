@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class UserController {
     @Autowired
@@ -23,6 +25,16 @@ public class UserController {
         model.addAttribute("user", new User());
         return "Register&Login";
     }
+
+    @GetMapping("/manageUsers")
+    public String showAdminPanelUsers(Model model){
+        List<User> users = userService.SelectAllUsers();
+        model.addAttribute("users",users);
+        return "UsersList";
+    }
+
+
+
     @PostMapping("/user/register")
     public String saveUser(@ModelAttribute("user") User user, Model model,HttpSession session ) {
         if (!user.getPassword().equals(user.getConfirmedPassword())) {
@@ -40,7 +52,12 @@ public class UserController {
         User user = userService.findUser(login,pass);
         if(user != null){
             session.setAttribute("userLoggedIn",user);
-            return "redirect:/";
+            if(user.getIsAdmin().equals("yes")){
+                return "redirect:/manageRestaurants";
+            }else{
+                return "redirect:/";
+            }
+
         }
         return "redirect:/user";
     }

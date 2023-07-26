@@ -22,6 +22,18 @@ hr{
     border-bottom: thin solid rgba(255,255,255,.1);
 }
 
+
+.star-rating {
+    display: inline-block;
+}
+.filled-star {
+    color: gold;  /* Adjust the color as desired */
+}
+
+.empty-star {
+    color: lightgray;  /* Adjust the color as desired */
+}
+
 div.title{
     font-size: 2em;
 }
